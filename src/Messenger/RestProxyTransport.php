@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Koco\Kafka\Messenger;
 
+use Exception;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -71,7 +72,7 @@ class RestProxyTransport implements TransportInterface, MessageCountAwareInterfa
      */
     public function get(): iterable
     {
-        throw new \Exception('Not implemented!');
+        throw new Exception('Not implemented!');
     }
 
     /**
@@ -79,7 +80,7 @@ class RestProxyTransport implements TransportInterface, MessageCountAwareInterfa
      */
     public function ack(Envelope $envelope): void
     {
-        throw new \Exception('Not implemented!');
+        throw new Exception('Not implemented!');
     }
 
     /**
@@ -87,7 +88,7 @@ class RestProxyTransport implements TransportInterface, MessageCountAwareInterfa
      */
     public function reject(Envelope $envelope): void
     {
-        throw new \Exception('Not implemented!');
+        throw new Exception('Not implemented!');
     }
 
     /**
@@ -103,7 +104,7 @@ class RestProxyTransport implements TransportInterface, MessageCountAwareInterfa
      */
     public function getMessageCount(): int
     {
-        throw new \Exception('Not implemented!');
+        throw new Exception('Not implemented!');
     }
 
     private function getSender(): RestProxySender

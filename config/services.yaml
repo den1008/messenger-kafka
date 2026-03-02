@@ -1,0 +1,25 @@
+services:
+  Koco\Kafka\RdKafka\RdKafkaFactory:
+    class: Koco\Kafka\RdKafka\RdKafkaFactory
+    public: false
+
+  Koco\Kafka\Messenger\KafkaTransportFactory:
+    class: Koco\Kafka\Messenger\KafkaTransportFactory
+    public: false
+    tags:
+      - { name: 'messenger.transport_factory' }
+    arguments:
+      - '@Koco\Kafka\RdKafka\RdKafkaFactory'
+      - '@?logger'
+
+  Koco\Kafka\Messenger\RestProxyTransportFactory:
+    class: Koco\Kafka\Messenger\RestProxyTransportFactory
+    public: false
+    tags:
+      - { name: 'messenger.transport_factory' }
+    arguments:
+      - '@?logger'
+      - '@?Psr\Http\Client\ClientInterface'
+      - '@?Psr\Http\Message\RequestFactoryInterface'
+      - '@?Psr\Http\Message\UriFactoryInterface'
+      - '@?Psr\Http\Message\StreamFactoryInterface'

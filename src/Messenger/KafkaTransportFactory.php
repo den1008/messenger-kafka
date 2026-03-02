@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Koco\Kafka\Messenger;
 
-use function explode;
+use Closure;
+use Exception;
 use Koco\Kafka\RdKafka\RdKafkaFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -13,9 +14,6 @@ use const RD_KAFKA_RESP_ERR__REVOKE_PARTITIONS;
 use RdKafka\Conf as KafkaConf;
 use RdKafka\KafkaConsumer;
 use RdKafka\TopicPartition;
-use function sprintf;
-use function str_replace;
-use function strpos;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportFactoryInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
@@ -100,9 +98,9 @@ class KafkaTransportFactory implements TransportFactoryInterface
         return $brokers;
     }
 
-    private function createRebalanceCb(LoggerInterface $logger): \Closure
+    private function createRebalanceCb(LoggerInterface $logger): Closure
     {
-        return function (KafkaConsumer $kafka, $err, array $topicPartitions = null) use ($logger) {
+        return function (KafkaConsumer $kafka, $err, ?array $topicPartitions = null) use ($logger) {
             /** @var TopicPartition[] $topicPartitions */
             $topicPartitions = $topicPartitions ?? [];
 
@@ -118,11 +116,11 @@ class KafkaTransportFactory implements TransportFactoryInterface
                     foreach ($topicPartitions as $topicPartition) {
                         $logger->info(sprintf('Assign: %s %s %s', $topicPartition->getTopic(), $topicPartition->getPartition(), $topicPartition->getOffset()));
                     }
-                    $kafka->assign(null);
+                    $kafka->assign();
                     break;
 
                 default:
-                    throw new \Exception($err);
+                    throw new Exception($err);
             }
         };
     }

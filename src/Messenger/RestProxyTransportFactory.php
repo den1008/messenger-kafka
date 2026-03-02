@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Koco\Kafka\Messenger;
 
+use InvalidArgumentException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -70,7 +71,7 @@ class RestProxyTransportFactory implements TransportFactoryInterface
         } elseif ($scheme === static::DSN_PROTOCOL_KAFKA_REST_SSL) {
             $baseUri = $baseUri->withScheme('https');
         } else {
-            throw new \InvalidArgumentException('The DSN is not formatted as expected.');
+            throw new InvalidArgumentException('The DSN is not formatted as expected.');
         }
 
         return new RestProxyTransport(
@@ -119,7 +120,7 @@ class RestProxyTransportFactory implements TransportFactoryInterface
 
     private function createMissingServiceException(string $className, string $message = null)
     {
-        return new \InvalidArgumentException(sprintf(
+        return new InvalidArgumentException(sprintf(
             '%sPlease install a library that provides "%s" and ensure the service is registered.',
             $message ? $message . ' ' : '',
             $className

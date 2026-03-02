@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Koco\Kafka\Serializer;
 
+use LogicException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
@@ -11,7 +12,7 @@ abstract class AbstractKafkaRestProxyBinarySerializer implements SerializerInter
 {
     public function decode(array $encodedEnvelope): Envelope
     {
-        throw new \LogicException('Method not implemented yet');
+        throw new LogicException('Method not implemented yet');
     }
 
     public function encode(Envelope $envelope): array
